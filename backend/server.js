@@ -8,11 +8,12 @@ app.use((req, res, next) => {
   next();
 });
 
+//FIXME: make dynamic to fetch different balloon data based on id param
 app.get("/balloons", async (req, res) => {
   try {
     //const id = req.params.id;
     const response = await fetch(
-      `https://a.windbornesystems.com/treasure/00.json`
+      `https://a.windbornesystems.com/treasure/01.json`
     );
     const data = await response.json();
     res.json(data);

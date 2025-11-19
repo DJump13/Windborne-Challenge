@@ -37,40 +37,39 @@
   }
 } */
 
-html, body, #root {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-}
-
-.app-container {
+/* Full page row layout */
+.layout {
   display: flex;
-  flex-direction: row;  /* <-- forces left-to-right layout */
-  height: 100vh;
   width: 100vw;
+  height: 100vh;
   overflow: hidden;
 }
 
-.sidebar {
-  width: 30%;
-  background: #1c1c1c;
-  color: white;
-  padding: 20px;
-  box-sizing: border-box;
-  overflow-y: auto;
-  z-index: 10;   
-  /* position: fixed; */
+/* Globe section */
+.globe-area {
+  flex: 1;
+  display: flex;
+  justify-content: center;   /* Centers the globe horizontally */
+  align-items: center;       /* Centers vertically */
+  background: black;
+  overflow: hidden;
 }
 
-.globe-container {
-  flex: 2;
-  position: relative;
-}
-
+/* IMPORTANT: the only wrapper around <Globe /> */
 .globe-wrapper {
-  position: absolute;
-  top: 0;
-  left: -21.5%;
-  width: 100%;
-  height: 80%;
+  position: relative;  /* REQUIRED for HTML elements to work */
+  width: 131%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 300px;
+  background: #111;
+  color: white;
+  z-index: 10;          /* Always stays in front */
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
 }

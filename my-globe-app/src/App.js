@@ -1,52 +1,76 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, use } from "react";
 import MyGlobe from "./MyGlobe";
 import Sidebar from "./Sidebar";
 import "./App.css";
 
 function App() {
-  const [data, setData] = useState(null);
-  const [particleSet, setParticleSet] = useState([]);
-  const [clicked, setClicked] = useState(null);
+  const [paths, setPaths] = useState(null);
+  const [livePoss, setLivePoss] = useState([]);
+  const [selected, setSelected] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:4000/balloons")
+    fetch("http://localhost:4000/latest")
       .then((res) => res.json())
-      .then((json) => setData(json))
+      .then((json) => {
+        const indexedData = json.map((item, i) => ({
+          id: i,
+          lat: item[0],
+          lng: item[1],
+          alt: item[2],
+        }));
+        setLivePoss(indexedData);
+      })
+      .catch((error) => console.error(error));
+  }, []);
+
+  useEffect(() => {
+    fetch("http://localhost:4000/paths")
+      .then((res) => res.json())
+      .then((json) => setPaths(json))
       .catch((error) => console.error(error));
   }, []);
 
   // console.log("data:", data);
   // console.log("data[0]:", data ? data[0] : "no data yet");
 
-  useEffect(() => {
-    const particles = [];
-    for (var i = 0; i < data?.length; i++) {
-      particles.push({
-        id: i,
-        lat: data[i][0],
-        lng: data[i][1],
-        alt: data[i][2],
-      });
-    }
+  // useEffect(() => {
+  //   const lives = [];
+  //   for (var i = 0; i < data?.length; i++) {
+  //     lives.push({
+  //       id: i,
+  //       lat: data[i][0],
+  //       lng: data[i][1],
+  //       alt: data[i][2],
+  //     });
+  //   }
 
-    // console.log("particles:", particles);
+  //   console.log("lives:", lives);
 
-    setParticleSet(particles);
-  }, [data]);
+  //   setLivePoss(lives);
+  // }, []);
 
   // console.log("particleSet:", particleSet);
 
   return (
     //<div style={{ width: "100vw", height: "100vh" }}>
     <div className="layout">
-      <Sidebar clicked={clicked} />
+      <Sidebar selected={selected} />
 
       {/* <div className="globe-wrapper"> */}
-      <MyGlobe
-        particleSet={particleSet}
-        clicked={clicked}
-        setClicked={setClicked}
-      />
+      {paths && paths.length > 0 ? (
+        <MyGlobe
+          paths={
+            selected !== null
+              ? [paths.find((b) => b[0].id === selected.id)]
+              : []
+          }
+          livePoss={livePoss}
+          selected={selected}
+          setSelected={setSelected}
+        />
+      ) : (
+        <div className="loading">Loading balloon data...</div>
+      )}
       {/* <Globe
             width={window.innerWidth}
             height={window.innerHeight}

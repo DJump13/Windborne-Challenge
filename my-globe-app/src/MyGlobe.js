@@ -71,7 +71,16 @@ function MyGlobe({ paths, livePoss, selected, setSelected }) {
               )
                 .then((res) => res.json())
                 .then((json) => {
-                  console.log(json.result);
+                  //   console.log(json.result);
+                  setSelected((prev) => {
+                    return {
+                      ...prev,
+                      uvi:
+                        json.result.uv * Math.exp(0.000105 * prev.alt * 1000), // adjust UV index for altitude
+                      ozone: json.result.ozone,
+                    };
+                  });
+
                   setOzoneData((prev) => {
                     const exists = prev.some(
                       (p) => p.lat === d.lat && p.lng === d.lng
@@ -88,11 +97,11 @@ function MyGlobe({ paths, livePoss, selected, setSelected }) {
                       },
                     ];
                   });
-                  console.log("Updated ozoneData:", ozoneData);
+                  //   console.log("Updated ozoneData:", ozoneData);
                 })
                 .catch((error) => console.error(error));
 
-              console.log("Clicked marker:", d);
+              //   console.log("Clicked marker:", d);
             };
 
             return el;

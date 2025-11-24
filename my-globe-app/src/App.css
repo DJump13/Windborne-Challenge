@@ -37,6 +37,10 @@
   }
 } */
 
+th, td {
+  padding: 5px;
+}
+
 /* Full page row layout */
 .layout {
   display: flex;

@@ -17,6 +17,8 @@ function App() {
           lat: item[0],
           lng: item[1],
           alt: item[2],
+          uvi: null,
+          ozone: null,
         }));
         setLivePoss(indexedData);
       })

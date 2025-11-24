@@ -33,7 +33,7 @@ async function populateLast24Hours() {
   if (snapshots.length > 0) {
     hourlySnapshots = snapshots.reverse(); //oldest to newest
     latestSnapshot = hourlySnapshots[hourlySnapshots.length - 1];
-    console.log("Populated last 24 hours of data");
+    // console.log("Populated last 24 hours of data");
   } else {
     console.warn("No valid data fetched for the last 24 hours");
   }
@@ -55,8 +55,8 @@ async function updateLatestHour() {
       hourlySnapshots.push(latestSnapshot); //add to front
       if (hourlySnapshots.length > 24) hourlySnapshots.shift();
 
-      console.log("Latest hour data updated: ", latestSnapshot);
-      console.log("Hourly snapshots length:", hourlySnapshots.length);
+      // console.log("Latest hour data updated: ", latestSnapshot);
+      // console.log("Hourly snapshots length:", hourlySnapshots.length);
     }
   } catch (err) {
     console.warn(`Error fetching hour ${hourStr}:`, err);
@@ -135,7 +135,7 @@ app.get("/openuv", (req, res) => {
 
 (async () => {
   await populateLast24Hours();
-  console.log(hourlySnapshots.length, " hourly snapshots loaded");
+  // console.log(hourlySnapshots.length, " hourly snapshots loaded");
 
   cron.schedule("0 * * * *", () => {
     console.log("Scheduled task: updating latest hour data");

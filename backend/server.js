@@ -137,7 +137,7 @@ app.get("/api/openuv", (req, res) => {
 // ----------------------
 app.use(express.static(path.join(__dirname, "../my-globe-app/build"))); // adjust path if needed
 
-app.get("*", (req, res) => {
+app.get(/^\/(?!api).*/, (req, res) => {
   // any route not handled by API will serve React's index.html
   res.sendFile(path.join(__dirname, "../my-globe-app/build", "index.html"));
 });

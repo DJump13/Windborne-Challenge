@@ -4,6 +4,8 @@ function Sidebar({ selected }) {
   return (
     <div className="sidebar">
       <h2>WindBorne Balloons</h2>
+      Yellow lines represent 24hr balloon path
+      <p>Heatmap represents relative ozone levels</p>
       <div>
         {selected ? (
           <div>
@@ -24,17 +26,19 @@ function Sidebar({ selected }) {
                 </tr>
                 <tr>
                   <td>UV Index ≈</td>
-                  <td>{selected.uvi.toFixed(3)}</td>
+                  <td>
+                    {selected?.uvi != null ? selected.uvi.toFixed(3) : "N/A"}
+                  </td>
                 </tr>
                 <tr>
                   <td>Ozone</td>
-                  <td>{selected.ozone} DU</td>
+                  <td>{selected?.ozone != null ? selected.ozone : "N/A"} DU</td>
                 </tr>
               </tbody>
             </table>
           </div>
         ) : (
-          "Select a balloon to see details."
+          <p>Select a balloon to see details.</p>
         )}
       </div>
     </div>

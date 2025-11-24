@@ -1,6 +1,7 @@
 const express = require("express");
 const cron = require("node-cron");
 require("dotenv").config();
+const path = require("path");
 
 const app = express();
 const PORT = 4000;
@@ -131,7 +132,15 @@ app.get("/openuv", (req, res) => {
   }
 });
 
-/////////////////////
+// ----------------------
+// Serve React frontend
+// ----------------------
+app.use(express.static(path.join(__dirname, "../my-globe-app/build"))); // adjust path if needed
+
+app.get("*", (req, res) => {
+  // any route not handled by API will serve React's index.html
+  res.sendFile(path.join(__dirname, "../my-globe-app/build", "index.html"));
+});
 
 (async () => {
   await populateLast24Hours();

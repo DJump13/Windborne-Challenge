@@ -9,7 +9,7 @@ function App() {
   const [selected, setSelected] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:4000/latest")
+    fetch("/latest")
       .then((res) => res.json())
       .then((json) => {
         const indexedData = json.map((item, i) => ({
@@ -26,7 +26,7 @@ function App() {
   }, []);
 
   useEffect(() => {
-    fetch("http://localhost:4000/paths")
+    fetch("/paths")
       .then((res) => res.json())
       .then((json) => setPaths(json))
       .catch((error) => console.error(error));

@@ -64,11 +64,7 @@ function MyGlobe({ paths, livePoss, selected, setSelected }) {
               e.stopPropagation();
               setSelected(d);
 
-              fetch(
-                `http://localhost:4000/openuv?lat=${d.lat.toFixed(
-                  2
-                )}&lng=${d.lng.toFixed(2)}`
-              )
+              fetch(`/openuv?lat=${d.lat.toFixed(2)}&lng=${d.lng.toFixed(2)}`)
                 .then((res) => res.json())
                 .then((json) => {
                   //   console.log(json.result);

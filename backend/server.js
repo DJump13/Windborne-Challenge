@@ -71,13 +71,13 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get("/latest", (req, res) => {
+app.get("/api/latest", (req, res) => {
   if (!latestSnapshot)
     return res.status(500).json({ error: "No latest snapshot available" });
   res.json(latestSnapshot);
 });
 
-app.get("/paths", (req, res) => {
+app.get("/api/paths", (req, res) => {
   const balloonCount = hourlySnapshots[0]?.length || 0;
 
   const paths = Array.from({ length: balloonCount }, () => []);
@@ -101,7 +101,7 @@ app.get("/paths", (req, res) => {
   res.json(paths);
 });
 
-app.get("/openuv", (req, res) => {
+app.get("/api/openuv", (req, res) => {
   var myHeaders = new Headers();
   myHeaders.append("x-access-token", process.env.OPENUV_API_KEY);
   myHeaders.append("Content-Type", "application/json");

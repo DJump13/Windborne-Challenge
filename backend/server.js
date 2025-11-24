@@ -1,5 +1,6 @@
 const express = require("express");
 const cron = require("node-cron");
+require("dotenv").config();
 
 const app = express();
 const PORT = 4000;
@@ -97,6 +98,37 @@ app.get("/paths", (req, res) => {
   }
 
   res.json(paths);
+});
+
+app.get("/openuv", (req, res) => {
+  var myHeaders = new Headers();
+  myHeaders.append("x-access-token", process.env.OPENUV_API_KEY);
+  myHeaders.append("Content-Type", "application/json");
+
+  var requestOptions = {
+    method: "GET",
+    headers: myHeaders,
+    redirect: "follow",
+  };
+
+  try {
+    const lat = req.query.lat;
+    const lng = req.query.lng;
+
+    fetch(
+      `https://api.openuv.io/api/v1/uv?lat=${lat}&lng=${lng}&alt=&dt=`,
+      requestOptions
+    )
+      .then((response) => response.text())
+      .then((result) => res.send(result))
+      .catch((error) => {
+        console.log("error", error);
+        res.status(500).json({ error: "Error fetching OpenUV data" });
+      });
+  } catch (err) {
+    console.warn(`Error in /openuv endpoint:`, err);
+    res.status(500).json({ error: "Internal server error" });
+  }
 });
 
 /////////////////////
